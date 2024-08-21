@@ -10,22 +10,27 @@ class ImageApp:
         # komponen GUI
         self.root = root
         self.root.title("Perancangan Citra Digital")
+        # mengatur geometry dektopnya
         self.root.geometry("900x800")
         self.root.configure(bg='#72CDF4')
 
         self.panel = tk.Label(root)
         self.panel.pack(side="top", fill="both", expand="yes")
+        #untuk mengatur warna pada panel
         self.panel.configure(bg='#319DCB')
 
+        #tombol untuk membuka gambar yang disimpan didalam file
         self.btn_open = tk.Button(root, text="Open Image", command=self.open_image, bg='#A4C39B')
         self.btn_open.pack(side="left", padx=10, pady=10)
 
         # self.btn_open2 = tk.Button(root, text="Open Second Image", command=self.open_second_image, bg='#A4C39B')
         # self.btn_open2.pack(side="left", padx=10, pady=10)
 
+        # tombol untuk menyimpan gambar 
         self.btn_save = tk.Button(root, text="Save Image", command=self.save_image, bg='#A4C39B')
         self.btn_save.pack(side="left", padx=10, pady=10)
 
+        #tombol untuk menderfinisiakan fungsi contrast
         self.btn_enhance = tk.Button(root, text="Enhance Contrast", command=self.enhance_image, bg='#A4C39B')
         self.btn_enhance.pack(side="left", padx=10, pady=10)
 
@@ -35,6 +40,7 @@ class ImageApp:
         # self.btn_pixel_op = tk.Button(root, text="Pixel Operation", command=self.penggabungan_dua_gambar, bg='#A4C39B')
         # self.btn_pixel_op.pack(side="left", padx=10, pady=10)
 
+        # tombol untuk menampilkan fungsi sharpen
         self.btn_convolution = tk.Button(root, text="Sharpen Image", command=self.sharpen, bg='#A4C39B')
         self.btn_convolution.pack(side="left", padx=10, pady=10)
 
@@ -42,20 +48,23 @@ class ImageApp:
         self.label_brightness_color = tk.Label(root,  bg='#72CDF4')
         self.label_brightness_color.pack(side="left", padx=10)
 
-        #untuk reduce noice
+        #tombol reduce noice
         self.btn_reduce_noise = tk.Button(root, text="Reduce Noise", command=self.reduce_noise, bg='#A4C39B')
         self.btn_reduce_noise.pack(side="left", padx=10, pady=10)
 
+        # tombol  brightness_color
         self.slider_brightness_color = tk.Scale(root, from_=0, to=100, orient="horizontal", command=self.adjust_brightness_color)
         self.slider_brightness_color.set(50)  # Set slider di tengah (50%)
         self.slider_brightness_color.pack(side="left", padx=10)
 
+        #fungsi yang menunjukkan mouse
         root.bind('<MouseWheel>', self.zoom)
         self.zoom_factor = 1.0
         self.image = None
         self.processed_image = None
         self.second_image = None
-
+        
+    #mendefinisikan fungsi guna untuk mengambil gambar dari file
     def open_image(self):
         try:
             file_path = filedialog.askopenfilename()
@@ -74,6 +83,7 @@ class ImageApp:
     #     except Exception as e:
     #         messagebox.showerror("Error", str(e))
 
+    #mendefinisikan fungsi menyimpan gambar
     def save_image(self):
         try:
             if self.processed_image:
@@ -83,7 +93,8 @@ class ImageApp:
                     messagebox.showinfo("Image Saved", "Image saved successfully!")
         except Exception as e:
             messagebox.showerror("Error", str(e))
-
+            
+    #mendefinisikan gambar unutk peningkatan kontras
     def enhance_image(self):
         try:
             if self.image:
@@ -114,6 +125,7 @@ class ImageApp:
     #     except Exception as e:
     #         messagebox.showerror("Error", str(e))
 
+    #mendefinisan fungsi ketajaman gambar
     def sharpen(self):
         try:
             if self.image:
@@ -125,6 +137,7 @@ class ImageApp:
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
+    #mendefinisan fungsi unutk mengatur penyesuaian warna dan cahaya
     def adjust_brightness_color(self, value):
         try:
             if self.image:
@@ -142,6 +155,7 @@ class ImageApp:
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
+    #mendefinisikan reduce noice
     def reduce_noise(self):
         try:
             if self.image:
@@ -150,6 +164,7 @@ class ImageApp:
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
+    #mendefinisikan fungsi guna membuka di dekstopnya
     def display_image(self, img):
         try:
             img_resized = img.resize((int(500 * self.zoom_factor), int(700 * self.zoom_factor)), Image.LANCZOS)
@@ -159,7 +174,8 @@ class ImageApp:
             self.panel.image = img_tk
         except Exception as e:
             messagebox.showerror("Error", str(e))
-
+            
+    #mendefinisikan fungsi yang digunakan untuk zoom in and out
     def zoom(self, event):
         try:
             if event.delta > 0:
@@ -170,7 +186,7 @@ class ImageApp:
                 self.display_image(self.processed_image or self.image)
         except Exception as e:
             messagebox.showerror("Error", str(e))
-
+#looping
 if __name__ == "__main__":
     try:
         root = tk.Tk()
